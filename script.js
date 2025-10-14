@@ -5,6 +5,14 @@ const weatherInfoSection = document.querySelector(".weather-info");
 const notFoundSection = document.querySelector(".not-found");
 const searchCitySection = document.querySelector(".search-city");
 
+const countryTxt = document.querySelector(".country-txt");
+const tempTxt = document.querySelector(".temp-txt");
+const conditionTxt = document.querySelector(".condition-txt");
+const humidityValueTxt = document.querySelector(".humidity-value-txt");
+const windValueTxt = document.querySelector(".wind-value-txt");
+const weatherSummaryImg = document.querySelector(".weather-summary-img");
+const currentDateTxt = document.querySelector(".current-date-txt");
+
 const apiKey = "1e9c822dbf4e0500ee7db3108e96ac52";
 
 searchBtn.addEventListener("click", () => {
@@ -30,6 +38,10 @@ async function getFetchData(endPoint, city) {
   return response.json();
 }
 
+function getWeatherIcon(id) {
+  console.log(id);
+}
+
 async function updateWeatherInfo(city) {
   const weatherData = await getFetchData("weather", city);
 
@@ -38,6 +50,21 @@ async function updateWeatherInfo(city) {
     return;
   }
   console.log(weatherData);
+
+  const {
+    name: country,
+    main: { temp, humidity },
+    weather: [{ id, main }],
+    wind: { speed },
+  } = weatherData;
+
+  countryTxt.textContent = country;
+  tempTxt.textContent = Math.round(temp) + " °C";
+  conditionTxt.textContent = main;
+  humidityValueTxt.textContent = humidity + "%";
+  windValueTxt.textContent = speed + "M/s";
+
+  weatherSummaryImg.src = assets / weather / $(getWeatherIcon(id));
 
   showDisplaySection(weatherInfoSection);
 }
