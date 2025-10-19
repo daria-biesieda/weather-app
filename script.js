@@ -39,7 +39,14 @@ async function getFetchData(endPoint, city) {
 }
 
 function getWeatherIcon(id) {
-  console.log(id);
+  if (id >= 200 && id <= 232) return "thunderstorm.svg";
+  if (id >= 300 && id <= 321) return "drizzle.svg";
+  if (id >= 500 && id <= 531) return "rain.svg";
+  if (id >= 600 && id <= 622) return "snow.svg";
+  if (id >= 701 && id <= 781) return "atmosphere.svg";
+  if (id === 800) return "clear.svg";
+  if (id >= 801 && id <= 804) return "clouds.svg";
+  return "clouds.svg";
 }
 
 async function updateWeatherInfo(city) {
@@ -64,7 +71,7 @@ async function updateWeatherInfo(city) {
   humidityValueTxt.textContent = humidity + "%";
   windValueTxt.textContent = speed + "M/s";
 
-  weatherSummaryImg.src = assets / weather / $(getWeatherIcon(id));
+  weatherSummaryImg.src = `../assets/weather/${getWeatherIcon(id)}`;
 
   showDisplaySection(weatherInfoSection);
 }
